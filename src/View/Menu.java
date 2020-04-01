@@ -1,12 +1,5 @@
 package View;
 
-import Controler.Map;
-import Model.BombermanGame;
-import Strategies.Strategy;
-import Strategies.StrategyBomberman;
-import Strategies.StrategyBombermanInteractif;
-import Strategies.StrategyBombermanRandom;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;

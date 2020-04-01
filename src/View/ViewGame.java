@@ -23,7 +23,7 @@ public class ViewGame extends JFrame implements Observer{
 	private JButton back_to_menu;
 	private BombermanGame game;
 	
-	public ViewGame(String map, BombermanGame game, PanelCommande vc) throws Exception {
+	public ViewGame(String map, PanelCommande vc) throws Exception {
 		super();
 		
 		this.game = game;

@@ -15,11 +15,7 @@ import javax.swing.JPanel;
 
 import Agent.Agent;
 import Agent.AgentAction;
-import Controler.Map;
-import Item.InfoBomb;
-import Item.InfoItem;
-import Item.ItemType;
-import Item.StateBomb;
+import View.Map;
 
 /** 
  * Classe qui permet de charger d'afficher le panneau du jeu à partir d'une carte et de listes d'agents avec leurs positions.
@@ -81,8 +77,6 @@ public class PanelBomberman extends JPanel{
 		this.breakable_walls = map.getStart_brokable_walls();
 		
 		listInfoAgents = map.getStart_agents();	
-		listInfoItems = new ArrayList<InfoItem>();
-		listInfoBombs = new ArrayList<InfoBomb>();
 		
 	}
 
@@ -145,6 +139,8 @@ public class PanelBomberman extends JPanel{
 			position_x+=stepx;
 		}
 
+
+		
 
 		for(int i = 0; i < listInfoItems.size(); i++){
 			dessine_Items(g, listInfoItems.get(i));	
