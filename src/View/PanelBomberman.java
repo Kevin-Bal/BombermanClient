@@ -15,6 +15,10 @@ import javax.swing.JPanel;
 
 import Agent.Agent;
 import Agent.AgentAction;
+import Item.InfoBomb;
+import Item.InfoItem;
+import Item.ItemType;
+import Item.StateBomb;
 import View.Map;
 
 /** 
