@@ -2,13 +2,8 @@ package Item;
 
 import java.io.Serializable;
 
-import Agent.Bomberman;
+public class InfoBomb{
 
-public class InfoBomb implements Serializable{
-	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private int x;
 	private int y;
@@ -16,7 +11,7 @@ public class InfoBomb implements Serializable{
 		
 	StateBomb stateBomb;
 
-	public InfoBomb(int x, int y, int range, StateBomb stateBomb, Bomberman b) {
+	public InfoBomb(int x, int y, int range, StateBomb stateBomb) {
 		this.x=x;
 		this.y=y;
 		this.range=range;

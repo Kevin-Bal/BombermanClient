@@ -53,9 +53,19 @@ public class ClientReceveur implements Runnable{
 				listInfoBombs.removeAll(listInfoBombs);
 				if(message_lu.getListInfoBombs()!=null) {
 					for(String s :  message_lu.getListInfoBombs()) {
-						InfoBomb ib = new InfoBomb(message_lu.getListInfoBombs().get(0));
+						InfoBomb ib = new InfoBomb(s);
 						listInfoBombs.add(ib);
 						System.out.println(listInfoBombs.get(0).getStateBomb().toString());
+					}
+				}
+				
+				//Recuperation INFO AGENT
+				listInfoAgents.removeAll(listInfoAgents);
+				if(message_lu.getListInfoAgents()!=null) {
+					for(String s :  message_lu.getListInfoAgents()) {
+						Agent ag = new Agent(s);
+						listInfoAgents.add(ag);
+						System.out.println(listInfoAgents.get(0).getColor());
 					}
 				}
 					

@@ -11,7 +11,7 @@ public class ServerObject implements Serializable{
 	 * 
 	 */
 	private boolean[][] breakable_walls ;
-	//private ArrayList<Agent> listInfoAgents;
+	private ArrayList<String> listInfoAgents;
     private ArrayList<InfoItem> listInfoItems;
     private ArrayList<String> listInfoBombs;
 	
@@ -49,19 +49,17 @@ public class ServerObject implements Serializable{
     		this.listInfoBombs.add(s);
     	}
     }
-    
-/*
-    public ArrayList<Agent> getListInfoAgents() {
+    public ArrayList<String> getListInfoAgents() {
         return listInfoAgents;
     }
 
-    public void setListInfoAgents(ArrayList<Agent> listInfoAgents) {
+    public void setListInfoAgents(ArrayList<String> listInfoAgents) {
         this.listInfoAgents = listInfoAgents;
     }
-*/
-    public void setInfoGame(boolean[][] breakable_walls, ArrayList<InfoItem> listInfoItems, ArrayList<String> listInfoBombs){
+
+    public void setInfoGame(boolean[][] breakable_walls, ArrayList<InfoItem> listInfoItems, ArrayList<String> listInfoBombs, ArrayList<String> listInfoAgents){
         setBreakable_walls(breakable_walls);
-        //setListInfoAgents(listInfoAgents);
+        setListInfoAgents(listInfoAgents);
         setListInfoItems(listInfoItems);
         setListInfoBombs(listInfoBombs);
     }
