@@ -26,11 +26,7 @@ public class ClientReceveur implements Runnable{
 	}
 
 	@Override
-	public void run() {
-		listInfoAgents = new ArrayList<Agent>();
-		listInfoBombs = new ArrayList<InfoBomb>();
-		listInfoItems = new ArrayList<InfoItem>();
-		
+	public void run() {		
 		try {
 			//Connexion au serveur
 			ObjectInputStream tamponLecture = new ObjectInputStream(connection.getInputStream());
@@ -38,6 +34,11 @@ public class ClientReceveur implements Runnable{
 			
 			ServerObject message_lu = new ServerObject();
 			while(!connection.isClosed()) {
+				listInfoAgents = new ArrayList<Agent>();
+				listInfoBombs = new ArrayList<InfoBomb>();
+				listInfoItems = new ArrayList<InfoItem>();
+				
+				
 				message_lu = (ServerObject) tamponLecture.readObject();
 
 				//Recuperation BREAKABLE WALLS
@@ -45,8 +46,10 @@ public class ClientReceveur implements Runnable{
 
 				//Recuperation INFO ITEM
 				if(message_lu.getListInfoItems()!=null) {
-					listInfoItems = message_lu.getListInfoItems();
-					System.out.println(listInfoItems.get(0).getX());
+					if(message_lu.getListInfoItems().size()!=0) {
+						listInfoItems = message_lu.getListInfoItems();
+						System.out.println(listInfoItems.get(0).getX());
+					}
 				}
 
 				//Recuperation INFO BOMB
@@ -55,20 +58,23 @@ public class ClientReceveur implements Runnable{
 					for(String s :  message_lu.getListInfoBombs()) {
 						InfoBomb ib = new InfoBomb(s);
 						listInfoBombs.add(ib);
-						System.out.println(listInfoBombs.get(0).getStateBomb().toString());
+						System.out.println(ib.getX());
+						//System.out.println(listInfoBombs.get(listInfoBombs.size()-1)).getStateBomb().toString());
 					}
 				}
 				
 				//Recuperation INFO AGENT
 				listInfoAgents.removeAll(listInfoAgents);
 				if(message_lu.getListInfoAgents()!=null) {
-					for(String s :  message_lu.getListInfoAgents()) {
+					for(String s :  message_lu.getListInfoAgents()) {						
 						Agent ag = new Agent(s);
 						listInfoAgents.add(ag);
-						System.out.println(listInfoAgents.get(0).getColor());
+						System.out.println(ag.getColor());
+						
+						//System.out.println(listInfoAgents.get(0).getColor());
 					}
 				}
-					
+
 			}
 			
 			connection.close();

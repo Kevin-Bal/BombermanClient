@@ -39,9 +39,12 @@ public class Agent {
 		String[] tab = parse.split(" ");
 		this.x = Integer.parseInt(tab[0]);
 		this.y = Integer.parseInt(tab[1]);		
-		this.agentAction = ParseToAgentAction(tab[3]);
-		this.color = ParseToColorAgent(tab[4]);
-
+		this.agentAction = ParseToAgentAction(tab[2]);
+		this.color = ParseToColorAgent(tab[3]);
+		this.type = tab[4].charAt(0);
+		this.isInvincible = Boolean.parseBoolean(tab[5]);
+		this.isSick = Boolean.parseBoolean(tab[6]);
+		this.isDead = Boolean.parseBoolean(tab[7]);
 	}
 
 
