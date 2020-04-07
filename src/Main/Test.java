@@ -11,10 +11,10 @@ public class Test {
 	public static void main(String[] args) throws Exception {	
 		try {
 			Socket connection = new Socket(serveurIp, serveurPort);
-			ClientReceveur receveur = new ClientReceveur("Test", connection);
 			ClientEmetteur emetteur = new ClientEmetteur("Test", connection);
-			new Thread(receveur).start();
 			new Thread(emetteur).start();
+			ClientReceveur receveur = new ClientReceveur("Test", connection,emetteur);
+			new Thread(receveur).start();
 		}catch(Exception e) {System.out.println("il manque un argument à GenClient");System.out.println("java GenClient Username");	}
 		
 		//Menu menu = new Menu();

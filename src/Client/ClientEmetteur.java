@@ -28,13 +28,11 @@ public class ClientEmetteur implements Runnable {
 			//Connexion au serveur
 			sortie = new PrintWriter(connection.getOutputStream(), true);
 			
-			sortie.format("%s \n",username);
-			
 			//Envoie de messages tant que l'utilisateur n'a pas écrit "exit"
 			String message = "";
 			do {
 				message = sc.nextLine();		
-				sortie.format("   [%s] : %s \n",username,message);
+				sortie.format("%s\n",message);
 			}while(!message.equals("exit"));
 		} catch (IOException e) {}
 		
@@ -47,5 +45,17 @@ public class ClientEmetteur implements Runnable {
 			e.printStackTrace();
 		}
 	}
+
+	
+	
+	public PrintWriter getSortie() {
+		return sortie;
+	}
+
+	public void setSortie(PrintWriter sortie) {
+		this.sortie = sortie;
+	}
+	
+	
 
 }

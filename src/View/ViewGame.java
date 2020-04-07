@@ -34,7 +34,7 @@ public class ViewGame extends JFrame implements Observer{
 
 		back_to_menu = new JButton("Retour Menu");
 		
-		this.jeu_bomberman = new PanelBomberman(this.game.getMap());;
+		this.jeu_bomberman = new PanelBomberman(this.game.getMap());
 		this.jeu_commande = vc;
 
 		creerBouton(this);

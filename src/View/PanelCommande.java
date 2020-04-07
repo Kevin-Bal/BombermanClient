@@ -21,15 +21,13 @@ import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import Controler.ControleurBombermanGame;
-import Model.BombermanGame;
+import Client.ClientEmetteur;
 
 
-public class PanelCommande implements Observer{
+public class PanelCommande{
 
 	
 ///////////----Attributs de la classe----///////////
-	private ControleurBombermanGame ControleurBombermanGame;
 	private JPanel jPanelView;
 
 
@@ -38,18 +36,12 @@ public class PanelCommande implements Observer{
 	private JPanel jPanelSlider;
 	private JLabel jLabel;
 	int tours;
-	BombermanGame game;
 ////////////////////////////////////////////////////
 	
 	
 	//Constructeur + Ouvre la fenetre JFrame
-	public PanelCommande(BombermanGame game) throws Exception{
+	public PanelCommande(ClientEmetteur ce) throws Exception{
 		tours = 0;
-		this.game=game;
-		this.game.addObserver(this);
-		 
-			
-		this.ControleurBombermanGame = new ControleurBombermanGame(game);
 		
 		//Instanciations des JPanels/JLabels
 		jPanelView = new JPanel();
@@ -60,24 +52,25 @@ public class PanelCommande implements Observer{
 		
 		//Ajout des boutons et slider
 		jPanelView.setLayout(new GridLayout(2,1));
-		createView();
+		createView(ce);
 		
 		//Ajouter tous les JPanels à la Frame
 		jPanelView.add(jPanelButtons);
 		jPanelView.add(jPanelSlider);
 	}
 	
+	/*
 	//afficher le compteur de tours à chaque fois qu'il est notifié
 	@Override
 	public void update(Observable o, Object arg) {
 		tours = game.getTurn(); 
 		jLabel.setText("Tours : "+Integer.toString(tours));
 		jLabel.setHorizontalAlignment(JLabel.CENTER);
-	}
+	}*/
 	
 	
 	//Ajoute les boutons et le slider à la vue
-	public void createView(){
+	public void createView(ClientEmetteur ce){
 		
 	//Boutons
 		jPanelButtons.setLayout(new GridLayout(1,5));
@@ -102,7 +95,7 @@ public class PanelCommande implements Observer{
 		jb_restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Restart Game");
-				ControleurBombermanGame.restart();
+				ce.getSortie().format("restart\n");
 				jb_restart.setEnabled(false);
 				jb_pause.setEnabled(true);
 				jb_run.setEnabled(false);
@@ -115,7 +108,7 @@ public class PanelCommande implements Observer{
 		jb_run.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Start");
-				ControleurBombermanGame.start();
+				ce.getSortie().format("start\n");
 				jb_pause.setEnabled(true);
 				jb_restart.setEnabled(false);
 				jb_run.setEnabled(false);
@@ -127,7 +120,7 @@ public class PanelCommande implements Observer{
 		jb_step.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Step");
-				ControleurBombermanGame.step();
+				ce.getSortie().format("step\n");
 			}
 		});
 		jPanelButtons.add(jb_step);	
@@ -136,7 +129,7 @@ public class PanelCommande implements Observer{
 		jb_pause.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Pause Game");
-				ControleurBombermanGame.stop();
+				ce.getSortie().format("pause\n");
 				jb_pause.setEnabled(false);
 				jb_restart.setEnabled(true);
 				jb_run.setEnabled(true);
@@ -172,7 +165,7 @@ public class PanelCommande implements Observer{
 		js.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent event) {
 				int time = js.getValue();
-				ControleurBombermanGame.setTime(time);
+				ce.getSortie().format("setTime %d\n",time);
 			}
 		});
 		
@@ -199,5 +192,4 @@ public class PanelCommande implements Observer{
 	public void setjPanelButtons(JPanel jPanelButtons) {
 		this.jPanelButtons = jPanelButtons;
 	}
-
 }
