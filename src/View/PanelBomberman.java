@@ -65,9 +65,9 @@ public class PanelBomberman extends JPanel{
 	private Map map;
 
 
-	protected ArrayList<Agent> listInfoAgents;
-	protected ArrayList<InfoItem> listInfoItems;
-	protected ArrayList<InfoBomb> listInfoBombs;
+	protected ArrayList<Agent> listInfoAgents = new ArrayList<Agent>();
+	protected ArrayList<InfoItem> listInfoItems = new ArrayList<InfoItem>();
+	protected ArrayList<InfoBomb> listInfoBombs = new ArrayList<InfoBomb>();
 	
 	
 	private boolean breakable_walls[][];
@@ -84,9 +84,7 @@ public class PanelBomberman extends JPanel{
 		
 	}
 
-	public void paint(Graphics g){
-
-	
+	public void paint(Graphics g){	
 		int fen_x=getSize().width;
 		int fen_y=getSize().height;
 

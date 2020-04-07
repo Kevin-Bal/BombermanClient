@@ -18,7 +18,7 @@ public class Agent {
 	private int id;
 	static int iter_id = 0;
 	
-	public Agent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick, int score) {
+	public Agent(int x, int y, AgentAction agentAction, char type, ColorAgent color, boolean isInvincible, boolean isSick) {
 		this.x=x;
 		this.y=y;
 		this.agentAction = agentAction;
