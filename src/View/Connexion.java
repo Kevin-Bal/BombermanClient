@@ -7,10 +7,7 @@ import javax.swing.*;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -33,7 +30,6 @@ public class Connexion extends JFrame {
     public Connexion(ClientEmetteur ce) {
         this.setTitle("Connexion");
         this.setSize(500, 300);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         container.setBackground(Color.white);
         container.setLayout(new BorderLayout());
@@ -59,6 +55,16 @@ public class Connexion extends JFrame {
         this.setContentPane(container);
         this.setVisible(true);
 
+        addWindowListener(new WindowAdapter()
+        {
+            @Override
+            public void windowClosing(WindowEvent e)
+            {
+                System.out.println("Closed");
+                ce.getSortie().println("quitter");
+                e.getWindow().dispose();
+            }
+        });
 
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evenement) {
@@ -109,11 +115,6 @@ public class Connexion extends JFrame {
         });
     }
 
-    public int fermetureFenetre(ClientEmetteur ce){
-        ce.getSortie().println("quitter");
-        return 3;
-
-    }
 
     public void changeEtat (String message){
         etatConnexion.setText(message);

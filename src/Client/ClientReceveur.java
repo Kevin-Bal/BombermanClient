@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -74,7 +76,7 @@ public class ClientReceveur implements Runnable{
 			Connexion co = new Connexion(emetteur);
 
 			//Récuperation du message serveur
-			String  message_lu = new String();	
+			String  message_lu = "";
 			while(!message_lu.equals("[Serveur]: Bienvenue")) {
 				message_lu = LectureString.readLine();
 				System.out.println(message_lu);
@@ -87,7 +89,16 @@ public class ClientReceveur implements Runnable{
 	        top.setLayout(new GridLayout(2,1));
 	        vue = new JFrame("Menu");
 	        vue.setTitle("Menu Jeu Bomberman");
-	        vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	        vue.addWindowListener(new WindowAdapter()
+			{
+				@Override
+				public void windowClosing(WindowEvent e)
+				{
+					System.out.println("Closed");
+					emetteur.getSortie().println("quitter");
+					e.getWindow().dispose();
+				}
+			});
 	        vue.setLayout(new BorderLayout());
 	        
 	        
@@ -252,13 +263,5 @@ public class ClientReceveur implements Runnable{
 			
 		} catch (IOException e) {e.printStackTrace();}
 	}
-	
-	
-	
-	
-
-	
-	
-
 
 }
