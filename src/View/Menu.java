@@ -56,7 +56,7 @@ public class Menu extends JFrame {
 
         //Construction du panneau des stratégies
         int nombre_bbm = game.getEtatJeu().getBombermans().size();
-        choix_strategie = new JPanel();
+        choix_strategie = new JPanel();nombre_bbmnombre_bbm
         choix_strategie.setLayout(new GridLayout( nombre_bbm, 2));
 
         for(int i = 0; i < nombre_bbm; i++) {
