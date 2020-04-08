@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class Menu extends JFrame {
     //choix du stage
-    private JComboBox<File> liste_lay;
+   /* private JComboBox<File> liste_lay;
     private String content = null;
 
     //Différent paneldu menu
@@ -154,7 +154,7 @@ public class Menu extends JFrame {
                 menu.dispose();
             }
         });
-    }
+    }*/
 
 }
 

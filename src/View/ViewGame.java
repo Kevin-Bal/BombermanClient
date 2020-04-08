@@ -12,13 +12,13 @@ import java.util.Observer;
 import javax.swing.*;
 
 import Agent.Agent;
-import Agent.Bomberman;
-import Controler.Map;
-import Model.BombermanGame;
-import Model.GameMode;
 
 public class ViewGame extends JFrame implements Observer{
-	private PanelBomberman jeu_bomberman;
+	@Override
+	public void update(Observable observable, Object o) {
+
+	}
+	/*private PanelBomberman jeu_bomberman;
 	private PanelCommande jeu_commande;
 	private JButton back_to_menu;
 	private BombermanGame game;
@@ -72,10 +72,7 @@ public class ViewGame extends JFrame implements Observer{
 		checkEndGame();
 	}
 	
-	
-	/*
-	 * Affiche un popup avec les scores des bombermans quand la partie se termine
-	 */
+
 	public void checkEndGame(){
 		if(game.isEndgame()) {
 			orderByScore(game.getEtatJeu().getBombermans());
@@ -125,10 +122,7 @@ public class ViewGame extends JFrame implements Observer{
 		}
 	}
 	
-	
-	/*
-	 * Creates a popup with a title and a text FOR PVE
-	 */
+
 	public void createPopupForPVE(String title,ArrayList<String> text) {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -152,9 +146,7 @@ public class ViewGame extends JFrame implements Observer{
 	    frame.setVisible(true);
 	}
 	
-	/*
-	 * Creates a popup with a title and a text FOR PVP
-	 */
+
 	public void createPopupForPVP(String title,ArrayList<String> text,String title2,ArrayList<String> text2) {
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -193,10 +185,7 @@ public class ViewGame extends JFrame implements Observer{
 	    frame.setVisible(true);
 	}
 	
-	
-	/*
-	 * To order a tab of bombermans by score
-	 */
+
 	public void orderByScore(ArrayList<Agent> bombermans) {
 		for(int i=bombermans.size(); i>1; --i) {
 			for(int j=1; j<i; ++j) {
@@ -209,10 +198,7 @@ public class ViewGame extends JFrame implements Observer{
 			}
 		}
 	}
-	
-	/*
-	 * Get the color of the bomberman from the text "Le Bomberman bleu a fait un score de "
-	 */
+
 	public String ColorOfBomberman(String t) {
 		String color="";
 		
@@ -239,5 +225,5 @@ public class ViewGame extends JFrame implements Observer{
 		}
 		
 		return color;
-	}
+	}*/
 }

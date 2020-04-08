@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import View.*;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -25,11 +26,6 @@ import com.google.gson.JsonParser;
 import Agent.Agent;
 import Item.InfoBomb;
 import Item.InfoItem;
-import View.Map;
-import View.Menu;
-import View.PanelBomberman;
-import View.PanelCommande;
-import View.ViewGame;
 import bean.ServerObject;
 
 
@@ -60,7 +56,6 @@ public class ClientReceveur implements Runnable{
 	protected ArrayList<InfoItem> listInfoItems;
 	protected ArrayList<Agent> listInfoAgents;
 	private BufferedReader LectureString = null;
-	private ObjectInputStream LectureObject = null;
 	ClientEmetteur emetteur;
 	
 	public ClientReceveur(String string, Socket connection, ClientEmetteur em) {
@@ -75,16 +70,19 @@ public class ClientReceveur implements Runnable{
 			System.out.println("Client lancé");
 			//Connexion au serveur
 			LectureString = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-			LectureObject = new ObjectInputStream(connection.getInputStream());
 
-			
+			Connexion co = new Connexion(emetteur);
+
 			//Récuperation du message serveur
 			String  message_lu = new String();	
 			while(!message_lu.equals("[Serveur]: Bienvenue")) {
 				message_lu = LectureString.readLine();
 				System.out.println(message_lu);
+				co.changeEtat(message_lu);
 			}
-			
+
+
+
 			//Init
 	        top = new JPanel();
 	        top.setLayout(new GridLayout(2,1));

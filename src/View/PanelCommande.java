@@ -95,7 +95,7 @@ public class PanelCommande{
 		jb_restart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Restart Game");
-				ce.getSortie().format("restart\n");
+				ce.getSortie().format("start\n");
 				jb_restart.setEnabled(false);
 				jb_pause.setEnabled(true);
 				jb_run.setEnabled(false);
@@ -108,7 +108,7 @@ public class PanelCommande{
 		jb_run.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evenement) {
 				System.out.println("Start");
-				ce.getSortie().format("start\n");
+				ce.getSortie().format("restart\n");
 				jb_pause.setEnabled(true);
 				jb_restart.setEnabled(false);
 				jb_run.setEnabled(false);
