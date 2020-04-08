@@ -35,11 +35,19 @@ public class ClientReceveur implements Runnable{
     //choix du stage
     private JComboBox<File> liste_lay;
     private String content = null;
+    private Map map = null;
+    
+    //choix startegies
+    private String[] names_strategies_joueur_1 = {"Bomberman IA 1","Bomberman Aléatoire","Bomberman Interactif"};
+    private String[] names_strategies = {"Bomberman IA 1","Bomberman Aléatoire"};
+    private ArrayList<JComboBox<String>> j_strategies = new ArrayList<>();
+    private int nombre_bbm = 0;	
     
     //Différent panel du menu
 	private JPanel top = null;
     private PanelBomberman viewMap = null;
     private PanelCommande viewCommande = null;
+    private JPanel choix_strategie = null;
     private JFrame vue = null;
     
     
@@ -82,9 +90,8 @@ public class ClientReceveur implements Runnable{
 	        vue.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	        vue.setLayout(new BorderLayout());
 	        
-	        //Construction du panneau du choix de niveau + jouer
 	        
-	        //Construction du panneau du choix de niveau + jouer
+	        //Construction du panneau du choix de niveau
 	        top = new JPanel();
 	        top.setLayout(new GridLayout(2,1));
 	        
@@ -93,45 +100,90 @@ public class ClientReceveur implements Runnable{
 
 
 	        liste_lay = new JComboBox<File>(files);
-	        JButton jouer = new JButton("Jouer");
+	        JButton suivant = new JButton("Suivant");
 	        content = liste_lay.getSelectedItem().toString();
 	        
 	        
 	        top.add(liste_lay);
-	        top.add(jouer);
+	        top.add(suivant);
 	        vue.add("North",top);
-	        	        
-
-	        jouer.addActionListener(new ActionListener() {
-
-	            public void actionPerformed(ActionEvent evenement) {
-	                content = liste_lay.getSelectedItem().toString();
-	                Map map = null;
-	    	        try {
-		    	        map = new Map(content);
-		    	        viewMap = new PanelBomberman(map);
-	    				viewCommande = new PanelCommande(emetteur);
-	    				emetteur.getSortie().format("%s\n",content);
-	    			} catch (Exception e) {e.printStackTrace();}
-
-	    	        vue.remove(top);
-	    	        
-	    	        vue.add("Center",viewMap);
-	    	        vue.add("North",viewCommande.getjPanelView());
-	    	        vue.setSize(map.getSizeX()*50, map.getSizeY()*40+10*25+110);
-	            }
-	        });
 
 	        vue.setSize(500, 200);
 	        vue.revalidate();
 	        vue.setLocationRelativeTo(null);
 	        vue.setVisible(true);
 
-	        /*
 
-	         */
+	        suivant.addActionListener(new ActionListener() {
+	            public void actionPerformed(ActionEvent evenement) {    					            	
+	            	//Envoi de la map
+	                content = liste_lay.getSelectedItem().toString();
+	    	        try {
+		    	        map = new Map(content);
+		    	        viewMap = new PanelBomberman(map);
+	    				viewCommande = new PanelCommande(emetteur);
+	    				emetteur.getSortie().format("%s\n",content);
+	    			} catch (Exception e2) {e2.printStackTrace();}	
+
+	            	vue.remove(top);
+	            }
+	        });
+
+			
 	        
-	        //RECUPERATION INFO
+	      //Construction du panneau du choix des strategies
+			try {
+				nombre_bbm = Integer.parseInt(LectureString.readLine());
+			} catch (NumberFormatException | IOException e1) {e1.printStackTrace();}
+			
+	        choix_strategie = new JPanel();
+	        choix_strategie.setLayout(new GridLayout( nombre_bbm, 2));
+	        for(int i = 0; i < nombre_bbm; i++) {
+	        	JComboBox<String> liste_strat = null;
+	        	if(i==0) {
+		            liste_strat = new JComboBox<String>(names_strategies_joueur_1);
+	        	}
+	        	else
+	        		liste_strat = new JComboBox<String>(names_strategies);
+	            j_strategies.add(liste_strat);
+	            choix_strategie.add(new JLabel("Joueur " + i+1));
+	            choix_strategie.add(liste_strat);
+	        }
+
+	        JPanel boutton = new JPanel();
+	        JButton jouer = new JButton("Jouer");
+	        boutton.add(jouer);
+	        vue.add("Center",choix_strategie);     
+	        vue.add("South",boutton);    
+	        
+	        vue.setSize(500, 200);
+	        vue.revalidate();
+	        vue.setLocationRelativeTo(null);
+	        vue.setVisible(true);
+	        
+	        jouer.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					vue.remove(choix_strategie);
+					
+	    	        for(int i = 0; i<j_strategies.size();i++) {
+	    	        	emetteur.getSortie().format("%s\n",j_strategies.get(i).getSelectedItem().toString());
+	                }
+
+	    	        vue.remove(choix_strategie);
+	    	        
+	    	        //Démarrage du jeu
+	    	        vue.add("Center",viewMap);
+	    	        vue.add("North",viewCommande.getjPanelView());
+	    	        vue.setSize(map.getSizeX()*50, map.getSizeY()*40+nombre_bbm*25+110);
+				}
+	        	
+	        });
+	        
+	        
+	        
+	        //RECUPERATION INFO JEU
 	        String infoServer = "";
             while(!connection.isClosed()) {
                 listInfoAgents = new ArrayList<Agent>();
@@ -152,7 +204,6 @@ public class ClientReceveur implements Runnable{
 				
 				//Recuperation BREAKABLE WALLS
 				breakable_walls= objet_lu.getBreakable_walls();
-				//System.out.println(objet_lu.getBreakable_walls()[5][5]);	
 
 				//Recuperation INFO ITEM
 				if(objet_lu.getListInfoItems()!=null) {
@@ -173,7 +224,6 @@ public class ClientReceveur implements Runnable{
 				//Recuperation INFO AGENT
 				listInfoAgents.removeAll(listInfoAgents);
 				if(objet_lu.getListInfoAgents()!=null) {
-					System.out.println(objet_lu.getListInfoAgents().get(0));
 					for(String s :  objet_lu.getListInfoAgents()) {						
 						Agent ag = new Agent(s);
 						listInfoAgents.add(ag);
