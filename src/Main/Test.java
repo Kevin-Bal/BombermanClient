@@ -16,7 +16,5 @@ public class Test {
 			ClientReceveur receveur = new ClientReceveur(connection,emetteur);
 			new Thread(receveur).start();
 		}catch(Exception e) {System.out.println("il manque un argument à GenClient");System.out.println("java GenClient Username");	}
-		
-		//Menu menu = new Menu();
 	}
 }

@@ -175,7 +175,7 @@ public class ClientReceveur implements Runnable{
 		    				input.setVisible(true);
 	    	        	}
 	                }
-
+	    	        vue.remove(boutton);
 	    	        vue.remove(choix_strategie);
 	    	        
 	    	        //Démarrage du jeu
