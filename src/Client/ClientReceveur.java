@@ -156,8 +156,7 @@ public class ClientReceveur implements Runnable{
 	        vue.add("South",boutton);    
 
       
-			ViewInput input = new ViewInput(emetteur);
-			input.setVisible(true);
+
 	        vue.setSize(500, 200);
 	        vue.revalidate();
 	        vue.setLocationRelativeTo(null);
@@ -171,6 +170,10 @@ public class ClientReceveur implements Runnable{
 					
 	    	        for(int i = 0; i<j_strategies.size();i++) {
 	    	        	emetteur.getSortie().format("%s\n",j_strategies.get(i).getSelectedItem().toString());
+	    	        	if(j_strategies.get(i).getSelectedItem().toString().equals("Bomberman Interactif")) {
+		    				ViewInput input = new ViewInput(emetteur);
+		    				input.setVisible(true);
+	    	        	}
 	                }
 
 	    	        vue.remove(choix_strategie);
@@ -187,7 +190,8 @@ public class ClientReceveur implements Runnable{
 	        
 	        //RECUPERATION INFO JEU
 	        String infoServer = "";
-            while(!connection.isClosed()) {
+	        boolean endgame = false;
+            while(!connection.isClosed() || !endgame) {
                 listInfoAgents = new ArrayList<Agent>();
                 listInfoBombs = new ArrayList<InfoBomb>();
                 listInfoItems = new ArrayList<InfoItem>();
@@ -203,6 +207,9 @@ public class ClientReceveur implements Runnable{
 				listInfoItems = new ArrayList<InfoItem>();
 				boolean[][] breakable_walls = new boolean[1000][1000];
 						
+				
+				//Recuperation 
+				endgame = objet_lu.isGameDone();
 				
 				//Recuperation BREAKABLE WALLS
 				breakable_walls= objet_lu.getBreakable_walls();
@@ -240,6 +247,7 @@ public class ClientReceveur implements Runnable{
 
 			}
 			
+            System.out.println("FIN DE PARTIE");
 			connection.close();
 			
 		} catch (IOException e) {e.printStackTrace();}

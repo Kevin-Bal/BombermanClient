@@ -33,7 +33,7 @@ public class Connexion extends JFrame {
     public Connexion(ClientEmetteur ce) {
         this.setTitle("Connexion");
         this.setSize(500, 300);
-        this.setDefaultCloseOperation(fermetureFenetre(ce));
+        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         container.setBackground(Color.white);
         container.setLayout(new BorderLayout());
