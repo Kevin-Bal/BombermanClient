@@ -80,8 +80,7 @@ public class ClientReceveur implements Runnable{
 				System.out.println(message_lu);
 				co.changeEtat(message_lu);
 			}
-
-
+			co.dispose();
 
 			//Init
 	        top = new JPanel();
@@ -172,8 +171,6 @@ public class ClientReceveur implements Runnable{
 					for(String s :  objet_lu.getListInfoAgents()) {						
 						Agent ag = new Agent(s);
 						listInfoAgents.add(ag);
-						System.out.println("position : "+ag.getX()+"   "+ag.getY());
-						//System.out.println(listInfoAgents.get(0).getColor());
 					}
 				}
 				

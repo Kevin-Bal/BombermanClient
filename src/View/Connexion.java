@@ -9,6 +9,13 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Connexion extends JFrame {
 
@@ -19,24 +26,34 @@ public class Connexion extends JFrame {
     private JLabel labelMail = new JLabel("Email :");
     private JLabel labelMDP = new JLabel("Mot de passe :");
     private JLabel etatConnexion = new JLabel();
+    private JLabel inscription = new JLabel("Pas de compte ? Insccrit toi");
+    private JLabel lien = new JLabel("http://localhost:8080/SiteBomberman/subscribe");
 
 
-    public Connexion(ClientEmetteur ce){
+    public Connexion(ClientEmetteur ce) {
         this.setTitle("Connexion");
         this.setSize(300, 300);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         this.setLocationRelativeTo(null);
         container.setBackground(Color.white);
         container.setLayout(new BorderLayout());
-        champMail.setPreferredSize(new Dimension(100, 20));
+        champMail.setPreferredSize(new Dimension(100, 300));
 
         JPanel mid = new JPanel();
-        mid.setLayout(new GridLayout(2,2));
+        mid.setLayout(new GridLayout(3, 2));
         mid.add(labelMail);
         mid.add(champMail);
         mid.add(labelMDP);
         mid.add(champMdp);
-        container.add(etatConnexion,BorderLayout.NORTH);
+        mid.add(inscription);
+
+        lien.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        lien.setForeground(Color.blue);
+        addListener(lien);
+        mid.add(lien);
+
+
+        container.add(etatConnexion, BorderLayout.NORTH);
         container.add(mid, BorderLayout.CENTER);
         container.add(connect, BorderLayout.SOUTH);
         this.setContentPane(container);
@@ -44,12 +61,49 @@ public class Connexion extends JFrame {
 
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evenement) {
-
                 String email = champMail.getText();
                 String mdp = champMdp.getText();
-                System.out.println("Test : "+email);
+                System.out.println("Test : " + email);
                 ce.getSortie().println(email);
                 ce.getSortie().println(mdp);
+
+
+            }
+
+        });
+    }
+
+    private void addListener(JLabel lb_url) {
+        lb_url.addMouseListener(new MouseAdapter() {
+            //Click sur le lien
+            public void mouseClicked(MouseEvent e) {
+                JLabel label=(JLabel)e.getSource();
+                String plainText = label.getText().replaceAll("<.*?>", "");
+                try {
+                    Desktop.getDesktop().browse(new URI(plainText));
+                } catch (URISyntaxException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (IOException ex) {
+                    Logger.getLogger(Connexion.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            //Survol sur le lien
+            public void mouseEntered(MouseEvent e) {
+                JLabel label=(JLabel)e.getSource();
+                String plainText = label.getText().replaceAll("<.*?>", "");
+                //Sousligner le texte
+                String urlText="<html><u>"+plainText+"</u></html>";
+                label.setText(urlText);
+            }
+
+            //Quitte la zone du lien
+            public void mouseExited(MouseEvent e) {
+                JLabel label=(JLabel)e.getSource();
+                String plainText = label.getText().replaceAll("<.*?>", "");
+                //Texte sans souslignage
+                String urlText="<html>"+plainText+"</html>";
+                label.setText(urlText);
             }
         });
     }
