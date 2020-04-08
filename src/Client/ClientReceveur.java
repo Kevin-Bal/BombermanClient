@@ -105,6 +105,7 @@ public class ClientReceveur implements Runnable{
 	        jouer.addActionListener(new ActionListener() {
 
 	            public void actionPerformed(ActionEvent evenement) {
+
 	                content = liste_lay.getSelectedItem().toString();
 	                Map map = null;
 	    	        try {
@@ -121,7 +122,8 @@ public class ClientReceveur implements Runnable{
 	    	        vue.setSize(map.getSizeX()*50, map.getSizeY()*40+10*25+110);
 	            }
 	        });
-
+			ViewInput input = new ViewInput(emetteur);
+			input.setVisible(true);
 	        vue.setSize(500, 200);
 	        vue.revalidate();
 	        vue.setLocationRelativeTo(null);
@@ -173,7 +175,6 @@ public class ClientReceveur implements Runnable{
 				//Recuperation INFO AGENT
 				listInfoAgents.removeAll(listInfoAgents);
 				if(objet_lu.getListInfoAgents()!=null) {
-					System.out.println(objet_lu.getListInfoAgents().get(0));
 					for(String s :  objet_lu.getListInfoAgents()) {						
 						Agent ag = new Agent(s);
 						listInfoAgents.add(ag);
