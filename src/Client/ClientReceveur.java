@@ -158,7 +158,7 @@ public class ClientReceveur implements Runnable{
 	        	else
 	        		liste_strat = new JComboBox<String>(names_strategies);
 	            j_strategies.add(liste_strat);
-	            choix_strategie.add(new JLabel("Joueur " + i+1));
+	            choix_strategie.add(new JLabel("Joueur " + (i+1)));
 	            choix_strategie.add(liste_strat);
 	        }
 
@@ -197,6 +197,7 @@ public class ClientReceveur implements Runnable{
 	        	
 	        });
 	        
+
 	        //RECUPERATION INFO JEU
 	        String infoServer = "";
 	        boolean endgame = false;
@@ -207,7 +208,6 @@ public class ClientReceveur implements Runnable{
                 boolean[][] breakable_walls = new boolean[1000][1000];
 
                 Gson gson=new Gson();
-
                 infoServer = LectureString.readLine();
                 JsonObject userJson = new JsonParser().parse(infoServer).getAsJsonObject();
 
@@ -227,9 +227,8 @@ public class ClientReceveur implements Runnable{
 						listInfoItems = objet_lu.getListInfoItems();
 					}
 				}
-
+				
 				//Recuperation INFO BOMB
-				listInfoBombs.removeAll(listInfoBombs);
 				if(objet_lu.getListInfoBombs()!=null) {
 					for(String s :  objet_lu.getListInfoBombs()) {
 						InfoBomb ib = new InfoBomb(s);
@@ -238,14 +237,15 @@ public class ClientReceveur implements Runnable{
 				}
 				
 				//Recuperation INFO AGENT
-				listInfoAgents.removeAll(listInfoAgents);
 				if(objet_lu.getListInfoAgents()!=null) {
 					for(String s :  objet_lu.getListInfoAgents()) {						
 						Agent ag = new Agent(s);
 						listInfoAgents.add(ag);
 					}
 				}
-				
+
+              
+              
 				viewMap.setInfoGame(breakable_walls,listInfoAgents,listInfoItems,listInfoBombs);
 				viewMap.repaint();
 			}
