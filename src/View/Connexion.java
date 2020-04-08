@@ -26,14 +26,14 @@ public class Connexion extends JFrame {
     private JLabel labelMail = new JLabel("Email :");
     private JLabel labelMDP = new JLabel("Mot de passe :");
     private JLabel etatConnexion = new JLabel();
-    private JLabel inscription = new JLabel("Pas de compte ? Insccrit toi");
+    private JLabel inscription = new JLabel("Pas de compte ? Insccris toi");
     private JLabel lien = new JLabel("http://localhost:8080/SiteBomberman/subscribe");
 
 
     public Connexion(ClientEmetteur ce) {
         this.setTitle("Connexion");
-        this.setSize(300, 300);
-        this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        this.setSize(500, 300);
+        this.setDefaultCloseOperation(fermetureFenetre(ce));
         this.setLocationRelativeTo(null);
         container.setBackground(Color.white);
         container.setLayout(new BorderLayout());
@@ -58,6 +58,7 @@ public class Connexion extends JFrame {
         container.add(connect, BorderLayout.SOUTH);
         this.setContentPane(container);
         this.setVisible(true);
+
 
         connect.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent evenement) {
@@ -106,6 +107,12 @@ public class Connexion extends JFrame {
                 label.setText(urlText);
             }
         });
+    }
+
+    public int fermetureFenetre(ClientEmetteur ce){
+        ce.getSortie().println("quitter");
+        return 3;
+
     }
 
     public void changeEtat (String message){
