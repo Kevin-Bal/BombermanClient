@@ -113,7 +113,6 @@ public class ClientReceveur implements Runnable{
 	        vue.setLocationRelativeTo(null);
 	        vue.setVisible(true);
 
-
 	        suivant.addActionListener(new ActionListener() {
 	            public void actionPerformed(ActionEvent evenement) {    					            	
 	            	//Envoi de la map
@@ -155,7 +154,10 @@ public class ClientReceveur implements Runnable{
 	        boutton.add(jouer);
 	        vue.add("Center",choix_strategie);     
 	        vue.add("South",boutton);    
-	        
+
+      
+			ViewInput input = new ViewInput(emetteur);
+			input.setVisible(true);
 	        vue.setSize(500, 200);
 	        vue.revalidate();
 	        vue.setLocationRelativeTo(null);

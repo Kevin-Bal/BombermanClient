@@ -10,13 +10,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import Agent.AgentAction;
+import Client.ClientEmetteur;
 
 public class ViewInput extends JFrame implements KeyListener{
 	
-	
+	private ClientEmetteur ce;
 	private AgentAction currentAction;
 
-	public ViewInput() {
+	public ViewInput(ClientEmetteur ce) {
+		this.ce = ce;
 		this.currentAction = AgentAction.STOP;
 		JFrame frame = new JFrame();
 		JPanel panel = new JPanel();
@@ -51,19 +53,19 @@ public class ViewInput extends JFrame implements KeyListener{
 		System.out.println(e.getKeyChar());
 		switch(e.getKeyChar()) {
 		case 'd':
-			currentAction = AgentAction.MOVE_RIGHT;
+			ce.getSortie().println("d");
 			break;
 		case 'q':
-			currentAction = AgentAction.MOVE_LEFT;
+			ce.getSortie().println("q");
 			break;
 		case 's':
-			currentAction = AgentAction.MOVE_DOWN;
+			ce.getSortie().println("s");
 			break;
 		case 'z':
-			currentAction = AgentAction.MOVE_UP;
+			ce.getSortie().println("z");
 			break;
 		case 'f':
-			currentAction = AgentAction.PUT_BOMB;
+			ce.getSortie().println("f");
 			break;
 		}
 		
