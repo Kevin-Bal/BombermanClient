@@ -11,9 +11,9 @@ public class Test {
 	public static void main(String[] args) throws Exception {	
 		try {
 			Socket connection = new Socket(serveurIp, serveurPort);
-			ClientEmetteur emetteur = new ClientEmetteur("Test", connection);
+			ClientEmetteur emetteur = new ClientEmetteur(connection);
 			new Thread(emetteur).start();
-			ClientReceveur receveur = new ClientReceveur("Test", connection,emetteur);
+			ClientReceveur receveur = new ClientReceveur(connection,emetteur);
 			new Thread(receveur).start();
 		}catch(Exception e) {System.out.println("il manque un argument à GenClient");System.out.println("java GenClient Username");	}
 		

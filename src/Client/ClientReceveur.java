@@ -35,22 +35,15 @@ public class ClientReceveur implements Runnable{
     //choix du stage
     private JComboBox<File> liste_lay;
     private String content = null;
-
+    
     //Différent panel du menu
 	private JPanel top = null;
     private PanelBomberman viewMap = null;
     private PanelCommande viewCommande = null;
     private JFrame vue = null;
-
-    private PanelCommande pc = null;
-    private JButton jouer = null;
-
-    private String[] names_strategies = {"Bomberman IA 1","Bomberman Aléatoire","Bomberman Interactif"};
-    private ArrayList<JComboBox<String>> j_strategies = new ArrayList<>();
     
     
 	//Connexion
-	private String username;
 	private Socket connection;
 	protected ArrayList<InfoBomb> listInfoBombs;
 	protected ArrayList<InfoItem> listInfoItems;
@@ -58,8 +51,7 @@ public class ClientReceveur implements Runnable{
 	private BufferedReader LectureString = null;
 	ClientEmetteur emetteur;
 	
-	public ClientReceveur(String string, Socket connection, ClientEmetteur em) {
-		this.username = string;
+	public ClientReceveur(Socket connection, ClientEmetteur em) {
 		this.connection = connection;
 		this.emetteur = em;
 	}
@@ -91,29 +83,53 @@ public class ClientReceveur implements Runnable{
 	        vue.setLayout(new BorderLayout());
 	        
 	        //Construction du panneau du choix de niveau + jouer
-	        Map map = null;
-	        try {
-	            map = new Map("layouts/alone.lay");
-	        } catch (Exception e) {
-	            e.printStackTrace();
-	        }	        
-	        viewMap = new PanelBomberman(map);
 	        
-	        try {
-				viewCommande = new PanelCommande(emetteur);
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	        vue.add("Center",viewMap);
-	        vue.add("North",viewCommande.getjPanelView());
+	        //Construction du panneau du choix de niveau + jouer
+	        top = new JPanel();
+	        top.setLayout(new GridLayout(2,1));
+	        
+	        File repertoire = new File("./layouts/");
+	        File[] files=repertoire.listFiles();
 
 
-	        vue.setSize(map.getSizeX()*50, map.getSizeY()*40+10*25+110);
+	        liste_lay = new JComboBox<File>(files);
+	        JButton jouer = new JButton("Jouer");
+	        content = liste_lay.getSelectedItem().toString();
+	        
+	        
+	        top.add(liste_lay);
+	        top.add(jouer);
+	        vue.add("North",top);
+	        	        
+
+	        jouer.addActionListener(new ActionListener() {
+
+	            public void actionPerformed(ActionEvent evenement) {
+	                content = liste_lay.getSelectedItem().toString();
+	                Map map = null;
+	    	        try {
+		    	        map = new Map(content);
+		    	        viewMap = new PanelBomberman(map);
+	    				viewCommande = new PanelCommande(emetteur);
+	    				emetteur.getSortie().format("%s\n",content);
+	    			} catch (Exception e) {e.printStackTrace();}
+
+	    	        vue.remove(top);
+	    	        
+	    	        vue.add("Center",viewMap);
+	    	        vue.add("North",viewCommande.getjPanelView());
+	    	        vue.setSize(map.getSizeX()*50, map.getSizeY()*40+10*25+110);
+	            }
+	        });
+
+	        vue.setSize(500, 200);
 	        vue.revalidate();
 	        vue.setLocationRelativeTo(null);
 	        vue.setVisible(true);
 
+	        /*
+
+	         */
 	        
 	        //RECUPERATION INFO
 	        String infoServer = "";
@@ -128,16 +144,6 @@ public class ClientReceveur implements Runnable{
 
 
                 ServerObject objet_lu = gson.fromJson(userJson,ServerObject.class);
-	        /*
-			ServerObject objet_lu = new ServerObject();
-			while(!connection.isClosed()) {
-				listInfoAgents = new ArrayList<Agent>();
-				listInfoBombs = new ArrayList<InfoBomb>();
-				listInfoItems = new ArrayList<InfoItem>();
-				boolean[][] breakable_walls = new boolean[1000][1000];
-						
-				objet_lu = (ServerObject) LectureObject.readObject();
-	         */
 				listInfoAgents = new ArrayList<Agent>();
 				listInfoBombs = new ArrayList<InfoBomb>();
 				listInfoItems = new ArrayList<InfoItem>();
@@ -179,16 +185,6 @@ public class ClientReceveur implements Runnable{
 				viewMap.setInfoGame(breakable_walls,listInfoAgents,listInfoItems,listInfoBombs);
 				viewMap.repaint();
 				
-				
-				
-			
-				
-				
-				
-				
-				
-				
-				
 
 			}
 			
@@ -200,10 +196,7 @@ public class ClientReceveur implements Runnable{
 	
 	
 	
-	
-	
-	
-	
+
 	
 	
 
