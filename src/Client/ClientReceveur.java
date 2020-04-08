@@ -60,7 +60,9 @@ public class ClientReceveur implements Runnable{
 	protected ArrayList<Agent> listInfoAgents;
 	private BufferedReader LectureString = null;
 	ClientEmetteur emetteur;
-	
+	private String gameMode = "";
+	private String resultatPartie = "";
+
 	public ClientReceveur(Socket connection, ClientEmetteur em) {
 		this.connection = connection;
 		this.emetteur = em;
@@ -164,9 +166,7 @@ public class ClientReceveur implements Runnable{
 	        JButton jouer = new JButton("Jouer");
 	        boutton.add(jouer);
 	        vue.add("Center",choix_strategie);     
-	        vue.add("South",boutton);    
-
-      
+	        vue.add("South",boutton);
 
 	        vue.setSize(500, 200);
 	        vue.revalidate();
@@ -197,23 +197,24 @@ public class ClientReceveur implements Runnable{
 	        	
 	        });
 	        
-	        
+
 	        //RECUPERATION INFO JEU
 	        String infoServer = "";
 	        boolean endgame = false;
-            while(!connection.isClosed() || !endgame) {
-                Gson gson=new Gson();    
+            while(!endgame) {
+                listInfoAgents = new ArrayList<Agent>();
+                listInfoBombs = new ArrayList<InfoBomb>();
+                listInfoItems = new ArrayList<InfoItem>();
+                boolean[][] breakable_walls = new boolean[1000][1000];
+
+                Gson gson=new Gson();
                 infoServer = LectureString.readLine();
                 JsonObject userJson = new JsonParser().parse(infoServer).getAsJsonObject();
 
-
                 ServerObject objet_lu = gson.fromJson(userJson,ServerObject.class);
-				listInfoAgents = new ArrayList<Agent>();
-				listInfoBombs = new ArrayList<InfoBomb>();
-				listInfoItems = new ArrayList<InfoItem>();
-				boolean[][] breakable_walls = new boolean[1000][1000];
-						
-				
+
+                gameMode = objet_lu.getGameMode();
+
 				//Recuperation 
 				endgame = objet_lu.isGameDone();
 				
@@ -243,17 +244,54 @@ public class ClientReceveur implements Runnable{
 					}
 				}
 
-				
+              
+              
 				viewMap.setInfoGame(breakable_walls,listInfoAgents,listInfoItems,listInfoBombs);
 				viewMap.repaint();
-				
-
 			}
+
+            emetteur.getSortie().println("STOP");
+
+            resultatPartie = LectureString.readLine();
+
+            checkEndGame(true, gameMode);
 			
             System.out.println("FIN DE PARTIE");
 			connection.close();
 			
 		} catch (IOException e) {e.printStackTrace();}
 	}
+
+	public void checkEndGame(boolean endGame, String gameMode){
+		if(endGame) {
+			//GAME MODE = PVE
+			if(gameMode.equals("PVE")) {
+				createPopupForPVE(resultatPartie);
+			}
+		}
+	}
+
+
+	/*
+	 * Creates a popup with a title and a text FOR PVE
+	 */
+	public void createPopupForPVE(String title) {
+		JFrame frame = new JFrame();
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(1,1));
+
+		//Add title
+		JLabel label = new JLabel();
+		label.setText("<html><h2>"+title+"</h2></html>");
+		panel.add(label);
+
+
+		frame.add(panel);
+		frame.setSize(200, 40);
+		frame.setLocationRelativeTo(null);
+		frame.setVisible(true);
+	}
+
+
 
 }
